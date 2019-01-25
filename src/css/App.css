@@ -1,0 +1,43 @@
+.App {
+  background-color: inherit;
+  text-align: center;
+  color: white;
+}
+
+.App-logo {
+  animation: App-logo-slide-in 1 2.25s cubic-bezier(.63,.16,.40,1.20);
+  height: 40vmin;
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-body {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  font-size: calc(10px + 1vmin);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-slide-in {
+  from {
+    opacity: 0;
+    transform: translate(25vw, -100vh);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
