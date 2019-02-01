@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@nivo/line": "^0.52.0",
+    "@nivo/pie": "^0.52.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-navigation": "^3.0.9",

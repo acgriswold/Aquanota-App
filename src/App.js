@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './img/logo.svg';
 import './css/App.css';
 import DisplayGraphLine from "./custom_modules/DisplayGraphLine";
+import DisplayGraphPie from "./custom_modules/DisplayGraphPie";
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
         </header>
         <div className="App-body">
           <DisplayGraphLine />
+          <DisplayGraphPie />
         </div>
       </div>;
   }

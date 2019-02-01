@@ -1,13 +1,28 @@
-.DisplayGraphLine {
+.DisplayGraphLine, .DisplayGraphPie {
   text-align: center;
 }
 
 .DisplayGraph-chart {
   height: 500px;
   width: 100vw;
-  background-color: rgba(255, 255, 255, 0.055);
+  background-color: rgba(165, 215, 255, 0.055);
   font-size: calc(5px + 1vmin);
   color: black;
+}
+
+.DisplayGraph-pie {
+  height: 500px;
+  width: 100vw;
+  background-color: rgba(165, 215, 255, 0.025);
+  font-size: calc(5px + 1vmin);
+  color: black;
+}
+
+.Chart-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* since nivo hard codes legend colors to be black, this changes it */
