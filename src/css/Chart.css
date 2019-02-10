@@ -1,8 +1,10 @@
-.DisplayGraphLine, .DisplayGraphPie {
-  text-align: center;
+.Display {
+    background-color: inherit;
+    text-align: center;
+    color: white;
 }
 
-.DisplayGraph-chart {
+.Display-chart, .Display-pie {
   height: 500px;
   width: 100vw;
   background-color: rgba(165, 215, 255, 0.055);
@@ -10,13 +12,13 @@
   color: black;
 }
 
-.DisplayGraph-pie {
+/* .Display-pie {
   height: 500px;
   width: 100vw;
   background-color: rgba(165, 215, 255, 0.025);
   font-size: calc(5px + 1vmin);
   color: black;
-}
+} */
 
 .Chart-header {
   display: flex;

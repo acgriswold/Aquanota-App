@@ -27,10 +27,6 @@
   font-size: calc(10px + 1vmin);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-slide-in {
   from {
     opacity: 0;

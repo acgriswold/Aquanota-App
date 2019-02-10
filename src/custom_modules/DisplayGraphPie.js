@@ -38,13 +38,13 @@ const colorPalette = [
 class DisplayGraphPie extends Component {
     render() {
         return (
-            <div className="DisplayGraphPie">
+            <div className="Display">
                 <header className="Chart-header">
                     <p>
                         <code> Pies of what is in your water!!  (<i>Spoiler Alert!!</i> - It's not pie) </code>
                     </p>
                 </ header>
-                <div className="DisplayGraph-pie">
+                <div className="Display-pie">
                     <ResponsivePie
                         data = { dataSet }
                         margin={{

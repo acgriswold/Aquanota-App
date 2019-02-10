@@ -247,13 +247,13 @@ const colorPalette = [
 class DisplayGraphLine extends Component {
     render() {
         return (
-            <div className="DisplayGraphLine">
+            <div className="Display">
                 <header className="Chart-header">
                     <p>
                         <code> Chart of Tank v. Tank v. Tank </code>
                     </p>
                 </ header>
-                <div className="DisplayGraph-chart">
+                <div className="Display-chart">
                     <ResponsiveLine
                         data={dataSet}
                         margin={{
