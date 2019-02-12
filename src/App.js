@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch, Link} from "react-router-dom";
 import logo from './img/logo.svg';
 import './css/App.css';
 import Overview from "./custom_pages/Overview";
@@ -7,7 +7,7 @@ import Page404 from "./custom_pages/Page404";
 
 class App extends Component {
   render() {
-    return <Router>
+    return <HashRouter>
       <div className = "App">
         <Switch>
           <Route exact path="/" component={ Splash } />
@@ -15,7 +15,7 @@ class App extends Component {
           <Route component={ Page404 } />
         </Switch>
       </div>
-    </Router>;
+    </HashRouter>;
   }
 }
 
@@ -24,9 +24,9 @@ const Splash = () => (<header className="App-header">
           <p>
             <code>Aquanota...</code> #1 Aquaponics Graphing App.
           </p>
-          <a href="/Overview" className="App-link"> 
+          <Link to="/Overview" className="App-link"> 
               Continue to App 
-            </a>
+          </Link>
         </header>
 );
 
