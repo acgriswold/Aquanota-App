@@ -736,7 +736,7 @@ class DisplayGraphLine extends Component {
                 <header className="Chart-header">
                     <p>
                         <code> 
-                            Now Viewing 
+                            Currently Viewing: 
                             <TankMenu onChange={this.onChange.bind(this)}></TankMenu>
                         </code> 
                     </p>
