@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+
 import '../css/Page404.css';
 
 class Page404 extends Component {
@@ -8,7 +10,7 @@ class Page404 extends Component {
                 <div className="Page404-header">
                 <code>
                     <p>Page not found...</p>
-                    <a className="App-link" href="/">Go Home?</a>
+                    <Link className="App-link" to="/">Go Home?</Link>
                 </code>
                 </div>
             </div>

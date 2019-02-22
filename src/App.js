@@ -3,16 +3,22 @@ import { HashRouter as Router, Route, Switch, Link} from "react-router-dom";
 import SideNav, {MenuIcon} from 'react-simple-sidenav';
 import logo from './img/logo.svg';
 import './css/App.css';
+
 import Overview from "./custom_pages/Overview";
 import Page404 from "./custom_pages/Page404";
 
 class App extends Component {
   state = { showNav: false };
 
+  _HandleClick = () => {
+    console.log('this is:', this);
+  }
+
   render() {
+
     return <Router>
       <div className = "App">
-        <div className = "header">
+        <div className = "Navigation-header">
           <MenuIcon onClick={() => this.setState({showNav: true})}/>
         </div>
         <SideNav

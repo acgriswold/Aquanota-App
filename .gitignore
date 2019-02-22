@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# work inprogress
+/src/custom_modules/GlobalAlerts.js

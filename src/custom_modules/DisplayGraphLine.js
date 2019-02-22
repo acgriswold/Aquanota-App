@@ -2,236 +2,699 @@ import React, { Component } from 'react';
 import '../css/Chart.css';
 import { ResponsiveLine } from "@nivo/line";
 
-const dataSet = [{
-                                "id": "japan",
-                                "color": "hsl(1, 70%, 50%)",
-                                "data": [
-                                {
-                                    "x": "plane",
-                                    "y": 285
-                                },
-                                {
-                                    "x": "helicopter",
-                                    "y": 286
-                                },
-                                {
-                                    "x": "boat",
-                                    "y": 84
-                                },
-                                {
-                                    "x": "train",
-                                    "y": 108
-                                },
-                                {
-                                    "x": "subway",
-                                    "y": 300
-                                },
-                                {
-                                    "x": "bus",
-                                    "y": 204
-                                },
-                                {
-                                    "x": "car",
-                                    "y": 7
-                                },
-                                {
-                                    "x": "moto",
-                                    "y": 198
-                                },
-                                {
-                                    "x": "bicycle",
-                                    "y": 221
-                                },
-                                {
-                                    "x": "others",
-                                    "y": 281
-                                }
-                                ]
-                            },
-                            {
-                                "id": "france",
-                                "color": "hsl(4, 70%, 50%)",
-                                "data": [
-                                {
-                                    "x": "plane",
-                                    "y": 222
-                                },
-                                {
-                                    "x": "helicopter",
-                                    "y": 17
-                                },
-                                {
-                                    "x": "boat",
-                                    "y": 262
-                                },
-                                {
-                                    "x": "train",
-                                    "y": 69
-                                },
-                                {
-                                    "x": "subway",
-                                    "y": 223
-                                },
-                                {
-                                    "x": "bus",
-                                    "y": 26
-                                },
-                                {
-                                    "x": "car",
-                                    "y": 69
-                                },
-                                {
-                                    "x": "moto",
-                                    "y": 82
-                                },
-                                {
-                                    "x": "bicycle",
-                                    "y": 109
-                                },
-                                {
-                                    "x": "others",
-                                    "y": 27
-                                }
-                                ]
-                            },
-                            {
-                                "id": "us",
-                                "color": "hsl(41, 70%, 50%)",
-                                "data": [
-                                {
-                                    "x": "plane",
-                                    "y": 48
-                                },
-                                {
-                                    "x": "helicopter",
-                                    "y": 269
-                                },
-                                {
-                                    "x": "boat",
-                                    "y": 19
-                                },
-                                {
-                                    "x": "train",
-                                    "y": 181
-                                },
-                                {
-                                    "x": "subway",
-                                    "y": 18
-                                },
-                                {
-                                    "x": "bus",
-                                    "y": 290
-                                },
-                                {
-                                    "x": "car",
-                                    "y": 131
-                                },
-                                {
-                                    "x": "moto",
-                                    "y": 103
-                                },
-                                {
-                                    "x": "bicycle",
-                                    "y": 151
-                                },
-                                {
-                                    "x": "others",
-                                    "y": 226
-                                }
-                                ]
-                            },
-                            {
-                                "id": "germany",
-                                "color": "hsl(93, 70%, 50%)",
-                                "data": [
-                                {
-                                    "x": "plane",
-                                    "y": 98
-                                },
-                                {
-                                    "x": "helicopter",
-                                    "y": 191
-                                },
-                                {
-                                    "x": "boat",
-                                    "y": 254
-                                },
-                                {
-                                    "x": "train",
-                                    "y": 282
-                                },
-                                {
-                                    "x": "subway",
-                                    "y": 8
-                                },
-                                {
-                                    "x": "bus",
-                                    "y": 154
-                                },
-                                {
-                                    "x": "car",
-                                    "y": 141
-                                },
-                                {
-                                    "x": "moto",
-                                    "y": 86
-                                },
-                                {
-                                    "x": "bicycle",
-                                    "y": 160
-                                },
-                                {
-                                    "x": "others",
-                                    "y": 292
-                                }
-                                ]
-                            },
-                            {
-                                "id": "norway",
-                                "color": "hsl(353, 70%, 50%)",
-                                "data": [
-                                {
-                                    "x": "plane",
-                                    "y": 268
-                                },
-                                {
-                                    "x": "helicopter",
-                                    "y": 156
-                                },
-                                {
-                                    "x": "boat",
-                                    "y": 77
-                                },
-                                {
-                                    "x": "train",
-                                    "y": 38
-                                },
-                                {
-                                    "x": "subway",
-                                    "y": 12
-                                },
-                                {
-                                    "x": "bus",
-                                    "y": 178
-                                },
-                                {
-                                    "x": "car",
-                                    "y": 287
-                                },
-                                {
-                                    "x": "moto",
-                                    "y": 117
-                                },
-                                {
-                                    "x": "bicycle",
-                                    "y": 9
-                                },
-                                {
-                                    "x": "others",
-                                    "y": 86
-                                }
-                                ]
-                            }];
+import TankMenu from "./TankMenu";
+
+const dataSet1 = [{
+        "id": "DO",
+        "color": "hsl(1, 70%, 50%)",
+        "data": [
+        {
+            "x": 1,
+            "y": 285
+        },
+        {
+            "x": 3,
+            "y": 286
+        },
+        {
+            "x": 5,
+            "y": 84
+        },
+        {
+            "x": 7,
+            "y": 108
+        },
+        {
+            "x": 9,
+            "y": 300
+        },
+        {
+            "x": 11,
+            "y": 204
+        },
+        {
+            "x": 13,
+            "y": 7
+        },
+        {
+            "x": 15,
+            "y": 198
+        },
+        {
+            "x": 17,
+            "y": 221
+        },
+        {
+            "x": 19,
+            "y": 281
+        }
+        ]
+    },
+    {
+        "id": "Temp",
+        "color": "hsl(4, 70%, 50%)",
+        "data": [
+        {
+            "x": 1,
+            "y": 222
+        },
+        {
+            "x": 3,
+            "y": 17
+        },
+        {
+            "x": 5,
+            "y": 262
+        },
+        {
+            "x": 7,
+            "y": 69
+        },
+        {
+            "x": 9,
+            "y": 223
+        },
+        {
+            "x": 11,
+            "y": 26
+        },
+        {
+            "x": 13,
+            "y": 69
+        },
+        {
+            "x": 15,
+            "y": 82
+        },
+        {
+            "x": 17,
+            "y": 109
+        },
+        {
+            "x": 19,
+            "y": 27
+        }
+        ]
+    },
+    {
+        "id": "pH",
+        "color": "hsl(41, 70%, 50%)",
+        "data": [
+        {
+            "x": 1,
+            "y": 48
+        },
+        {
+            "x": 3,
+            "y": 269
+        },
+        {
+            "x": 5,
+            "y": 19
+        },
+        {
+            "x": 7,
+            "y": 181
+        },
+        {
+            "x": 9,
+            "y": 18
+        },
+        {
+            "x": 11,
+            "y": 290
+        },
+        {
+            "x": 13,
+            "y": 131
+        },
+        {
+            "x": 15,
+            "y": 103
+        },
+        {
+            "x": 17,
+            "y": 151
+        },
+        {
+            "x": 19,
+            "y": 226
+        }
+        ]
+    },
+    {
+        "id": "Chlorate",
+        "color": "hsl(93, 70%, 50%)",
+        "data": [
+        {
+            "x": 1,
+            "y": 98
+        },
+        {
+            "x": 3,
+            "y": 191
+        },
+        {
+            "x": 5,
+            "y": 254
+        },
+        {
+            "x": 7,
+            "y": 282
+        },
+        {
+            "x": 9,
+            "y": 8
+        },
+        {
+            "x": 11,
+            "y": 154
+        },
+        {
+            "x": 13,
+            "y": 141
+        },
+        {
+            "x": 15,
+            "y": 86
+        },
+        {
+            "x": 17,
+            "y": 160
+        },
+        {
+            "x": 19,
+            "y": 292
+        }
+        ]
+    },
+    {
+        "id": "Nitrate",
+        "color": "hsl(353, 70%, 50%)",
+        "data": [
+        {
+            "x": 1,
+            "y": 268
+        },
+        {
+            "x": 3,
+            "y": 156
+        },
+        {
+            "x": 5,
+            "y": 77
+        },
+        {
+            "x": 7,
+            "y": 38
+        },
+        {
+            "x": 9,
+            "y": 12
+        },
+        {
+            "x": 11,
+            "y": 178
+        },
+        {
+            "x": 13,
+            "y": 287
+        },
+        {
+            "x": 15,
+            "y": 117
+        },
+        {
+            "x": 17,
+            "y": 9
+        },
+        {
+            "x": 19,
+            "y": 86
+        }
+        ]
+    }];
+const dataSet2 = [{
+        "id": "DO",
+        "color": "hsl(1, 70%, 50%)",
+        "data": [{
+                "x": 1,
+                "y": 106
+            },
+            {
+                "x": 3,
+                "y": 48
+            },
+            {
+                "x": 5,
+                "y": 293
+            },
+            {
+                "x": 7,
+                "y": 384
+            },
+            {
+                "x": 9,
+                "y": 187
+            },
+            {
+                "x": 11,
+                "y": 100
+            },
+            {
+                "x": 13,
+                "y": 367
+            },
+            {
+                "x": 15,
+                "y": 109
+            },
+            {
+                "x": 17,
+                "y": 8
+            },
+            {
+                "x": 19,
+                "y": 270
+            }
+        ]
+    },
+    {
+        "id": "Temp",
+        "color": "hsl(4, 70%, 50%)",
+        "data": [{
+                "x": 1,
+                "y": 239
+            },
+            {
+                "x": 3,
+                "y": 286
+            },
+            {
+                "x": 5,
+                "y": 166
+            },
+            {
+                "x": 7,
+                "y": 276
+            },
+            {
+                "x": 9,
+                "y": 7
+            },
+            {
+                "x": 11,
+                "y": 257
+            },
+            {
+                "x": 13,
+                "y": 352
+            },
+            {
+                "x": 15,
+                "y": 150
+            },
+            {
+                "x": 17,
+                "y": 353
+            },
+            {
+                "x": 19,
+                "y": 363
+            }
+        ]
+    },
+    {
+        "id": "pH",
+        "color": "hsl(41, 70%, 50%)",
+           "data": [{
+                   "x": 1,
+                   "y": 276
+               },
+               {
+                   "x": 3,
+                   "y": 78
+               },
+               {
+                   "x": 5,
+                   "y": 138
+               },
+               {
+                   "x": 7,
+                   "y": 331
+               },
+               {
+                   "x": 9,
+                   "y": 18
+               },
+               {
+                   "x": 11,
+                   "y": 74
+               },
+               {
+                   "x": 13,
+                   "y": 41
+               },
+               {
+                   "x": 15,
+                   "y": 213
+               },
+               {
+                   "x": 17,
+                   "y": 219
+               },
+               {
+                   "x": 19,
+                   "y": 217
+               }
+           ]
+    },
+    {
+        "id": "Chlorate",
+        "color": "hsl(93, 70%, 50%)",
+          "data": [{
+                  "x": 1,
+                  "y": 23
+              },
+              {
+                  "x": 3,
+                  "y": 236
+              },
+              {
+                  "x": 5,
+                  "y": 36
+              },
+              {
+                  "x": 7,
+                  "y": 162
+              },
+              {
+                  "x": 9,
+                  "y": 226
+              },
+              {
+                  "x": 11,
+                  "y": 68
+              },
+              {
+                  "x": 13,
+                  "y": 33
+              },
+              {
+                  "x": 15,
+                  "y": 328
+              },
+              {
+                  "x": 17,
+                  "y": 398
+              },
+              {
+                  "x": 19,
+                  "y": 365
+              }
+          ]
+    },
+    {
+        "id": "Nitrate",
+        "color": "hsl(353, 70%, 50%)",
+    "data": [{
+            "x": 1,
+            "y": 325
+        },
+        {
+            "x": 3,
+            "y": 171
+        },
+        {
+            "x": 5,
+            "y": 22
+        },
+        {
+            "x": 7,
+            "y": 140
+        },
+        {
+            "x": 9,
+            "y": 44
+        },
+        {
+            "x": 11,
+            "y": 72
+        },
+        {
+            "x": 13,
+            "y": 134
+        },
+        {
+            "x": 15,
+            "y": 185
+        },
+        {
+            "x": 17,
+            "y": 243
+        },
+        {
+            "x": 19,
+            "y": 248
+        }
+    ]
+    }
+];
+
+const dataSet3 = [
+  {
+    "id": "DO",
+    "color": "hsl(1, 70%, 50%)",
+    "data": [
+      {
+        "x": 1,
+        "y": 123
+      },
+      {
+        "x": 3,
+        "y": 184
+      },
+      {
+        "x": 5,
+        "y": 124
+      },
+      {
+        "x": 7,
+        "y": 194
+      },
+      {
+        "x": 9,
+        "y": 54
+      },
+      {
+        "x": 11,
+        "y": 298
+      },
+      {
+        "x": 13,
+        "y": 245
+      },
+      {
+        "x": 15,
+        "y": 7
+      },
+      {
+        "x": 17,
+        "y": 309
+      },
+      {
+        "x": 19,
+        "y": 42
+      }
+    ]
+  },
+  {
+    "id": "Temp",
+    "color": "hsl(4, 70%, 50%)",
+    "data": [
+      {
+        "x": 1,
+        "y": 217
+      },
+      {
+        "x": 3,
+        "y": 286
+      },
+      {
+        "x": 5,
+        "y": 11
+      },
+      {
+        "x": 7,
+        "y": 65
+      },
+      {
+        "x": 9,
+        "y": 228
+      },
+      {
+        "x": 11,
+        "y": 143
+      },
+      {
+        "x": 13,
+        "y": 86
+      },
+      {
+        "x": 15,
+        "y": 103
+      },
+      {
+        "x": 17,
+        "y": 317
+      },
+      {
+        "x": 19,
+        "y": 192
+      }
+    ]
+  },
+  {
+    "id": "pH",
+    "color": "hsl(41, 70%, 50%)",
+    "data": [
+      {
+        "x": 1,
+        "y": 93
+      },
+      {
+        "x": 3,
+        "y": 323
+      },
+      {
+        "x": 5,
+        "y": 138
+      },
+      {
+        "x": 7,
+        "y": 42
+      },
+      {
+        "x": 9,
+        "y": 18
+      },
+      {
+        "x": 11,
+        "y": 172
+      },
+      {
+        "x": 13,
+        "y": 73
+      },
+      {
+        "x": 15,
+        "y": 79
+      },
+      {
+        "x": 17,
+        "y": 189
+      },
+      {
+        "x": 19,
+        "y": 192
+      }
+    ]
+  },
+  {
+    "id": "Chlorate",
+    "color": "hsl(93, 70%, 50%)",
+    "data": [
+      {
+        "x": 1,
+        "y": 260
+      },
+      {
+        "x": 3,
+        "y": 16
+      },
+      {
+        "x": 5,
+        "y": 266
+      },
+      {
+        "x": 7,
+        "y": 88
+      },
+      {
+        "x": 9,
+        "y": 156
+      },
+      {
+        "x": 11,
+        "y": 151
+      },
+      {
+        "x": 13,
+        "y": 307
+      },
+      {
+        "x": 15,
+        "y": 85
+      },
+      {
+        "x": 17,
+        "y": 4
+      },
+      {
+        "x": 19,
+        "y": 244
+      }
+    ]
+  },
+  {
+    "id": "Nitrate",
+    "color": "hsl(353, 70%, 50%)",
+    "data": [
+      {
+        "x": 1,
+        "y": 115
+      },
+      {
+        "x": 3,
+        "y": 313
+      },
+      {
+        "x": 5,
+        "y": 379
+      },
+      {
+        "x": 7,
+        "y": 381
+      },
+      {
+        "x": 9,
+        "y": 395
+      },
+      {
+        "x": 11,
+        "y": 194
+      },
+      {
+        "x": 13,
+        "y": 137
+      },
+      {
+        "x": 15,
+        "y": 81
+      },
+      {
+        "x": 17,
+        "y": 231
+      },
+      {
+        "x": 19,
+        "y": 309
+      }
+    ]
+  }
+]
+let dataSet = dataSet3;
+
 const colorPalette = [
   "hsl(212, 88%, 27%)",
   "hsl(205, 91%, 35%)",
@@ -245,20 +708,45 @@ const colorPalette = [
 ];
 
 class DisplayGraphLine extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { }
+    }
+
+    onChange(field, value) {
+        // parent class change handler is always called with field name and value
+        this.setState({[field]: value});
+
+        if (value === "Tank 1") {
+            dataSet = dataSet3;
+        } else if (value === "Tank 2") {
+            dataSet = dataSet2;
+        } else if (value === "Tank 3") {
+            dataSet = dataSet1;
+        }
+    };
+
+    changeDate = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+    
     render() {
         return (
             <div className="Display">
                 <header className="Chart-header">
                     <p>
-                        <code> Chart of Tank v. Tank v. Tank </code>
+                        <code> 
+                            Now Viewing 
+                            <TankMenu onChange={this.onChange.bind(this)}></TankMenu>
+                        </code> 
                     </p>
-                </ header>
+                </header>
                 <div className="Display-chart">
                     <ResponsiveLine
                         data={dataSet}
                         margin={{
-                            "top": 50,
-                            "right": 110,
+                            "top": 70,
+                            "right": 50,
                             "bottom": 50,
                             "left": 60
                         }}
@@ -267,19 +755,19 @@ class DisplayGraphLine extends Component {
                         }}
                         yScale={{
                             "type": "linear",
-                            "stacked": true,
+                            "stacked": false,
                             "min": "auto",
                             "max": "auto"
                         }}
-                        curve="monotoneX"
-                        axisTop="null"
-                        axisRight="null"
+                        curve="natural"
+                        axisTop={null}
+                        axisRight={null}
                         axisBottom={{
                             "orient": "bottom",
                             "tickSize": 5,
                             "tickPadding": 5,
                             "tickRotation": 0,
-                            "legend": "transportation",
+                            "legend": "Week Number",
                             "legendOffset": 36,
                             "legendPosition": "middle"
                         }}
@@ -288,11 +776,12 @@ class DisplayGraphLine extends Component {
                             "tickSize": 5,
                             "tickPadding": 5,
                             "tickRotation": 0,
-                            "legend": "count",
+                            "legend": "Levels",
                             "legendOffset": -40,
                             "legendPosition": "middle"
                         }}
                         colors={colorPalette}
+                        lineWidth={2.5}
                         dotSize={10}
                         dotColor="inherit:darker(0.3)"
                         dotBorderWidth={2}
@@ -303,14 +792,14 @@ class DisplayGraphLine extends Component {
                         animate={true}
                         motionStiffness={90}
                         motionDamping={15}
-                        legends={[
-                            {
-                                "anchor": "bottom-right",
-                                "color": "white",
-                                "direction": "column",
+                        legends = {
+                            [{
+                                "anchor": "top-left",
+                                "direction": "row",
                                 "justify": false,
-                                "translateX": 100,
-                                "translateY": 0,
+                                "translateX": 0,
+                                "translateY": -40
+                                ,
                                 "itemsSpacing": 0,
                                 "itemDirection": "left-to-right",
                                 "itemWidth": 80,
@@ -318,18 +807,16 @@ class DisplayGraphLine extends Component {
                                 "itemOpacity": 0.75,
                                 "symbolSize": 12,
                                 "symbolShape": "circle",
-                                "symbolBorderColor": "rgba(255, 255, 255, .5)",
-                                "effects": [
-                                    {
-                                        "on": "hover",
-                                        "style": {
-                                            "itemBackground": "rgba(0, 0, 0, .03)",
-                                            "itemOpacity": 1
-                                        }
+                                "symbolBorderColor": "rgba(0, 0, 0, .5)",
+                                "effects": [{
+                                    "on": "hover",
+                                    "style": {
+                                        "itemBackground": "rgba(0, 0, 0, .03)",
+                                        "itemOpacity": 1
                                     }
-                                ]
-                            }
-                        ]}
+                                }]
+                            }]
+                        }
                     />
                 </div>
             </div>
