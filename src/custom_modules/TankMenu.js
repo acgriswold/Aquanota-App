@@ -23,8 +23,8 @@ class TankMenu extends React.Component {
     // update parent component that new tank is selected
     // used to update graph, charts and labels of parent
     if (prevStates.label !== this.state.label){
-    // for a selecting a tank, the value is passed into the change handler
-    this.props.onChange('selectedTank', this.state.label);
+      // for a selecting a tank, the value is passed into the change handler
+      this.props.onChange('selectedTank', this.state.label.substr(-1));
     }
   };
 
