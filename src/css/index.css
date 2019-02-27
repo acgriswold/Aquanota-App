@@ -26,3 +26,14 @@ code {
 a:visited, a:active {
   color: #00B6FF;
 }
+
+.emphasize {
+  font-size: 1.40em;
+  color: #005FB8;
+
+  padding: 0 .3em 0;
+}
+
+.text-body {
+  margin-bottom: .5em;
+}

@@ -8,8 +8,8 @@ let dataSet = [{
                 "id": "",
                 "color": "hsl(353, 70%, 50%)",
                 "data": [{
-                    "x": 1,
-                    "y": 2
+                    "x": 0,
+                    "y": 0
                 }]
             }];
 
@@ -35,13 +35,16 @@ class DisplayGraphLine extends Component {
                 "id": "",
                 "color": "hsl(353, 70%, 50%)",
                 "data": [{
-                    "x": 1,
-                    "y": 2
+                    "x": 0,
+                    "y": 0
                 }]
             }]
         };
 
-        fetch("https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1")
+        fetch("https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1",
+            {
+                method: "GET"
+            })
             .then(res => res.json())
             .then(
                 (result) => {
@@ -70,11 +73,10 @@ class DisplayGraphLine extends Component {
         // parent class change handler is always called with field name and value
         this.setState({[field]: value});
         let reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/"
+        //send request to specific url for selected tank
         reqURL += value;
 
-        console.log(reqURL);
-        console.log(value);
-        fetch(reqURL)
+        fetch(reqURL, {method: "GET"})
             .then(res => res.json())
             .then(
                 (result) => {
