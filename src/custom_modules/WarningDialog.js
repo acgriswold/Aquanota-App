@@ -20,7 +20,7 @@ class WarningDialog extends React.Component {
     open: false,
     type: "pH",
     units: "moles per liter, of hydrogen ions",
-    data: "2",
+    data: "4.5",
     tankID: "1"
   };
 

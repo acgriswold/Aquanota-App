@@ -58,6 +58,7 @@ class TankMenu extends React.Component {
           <MenuItem onClick={this.handleClose}>Tank 1</MenuItem>
           <MenuItem onClick={this.handleClose}>Tank 2</MenuItem>
           <MenuItem onClick={this.handleClose}>Tank 3</MenuItem>
+          <MenuItem onClick={this.handleClose}>Tank 4</MenuItem>
         </Menu>
       </div>
     );

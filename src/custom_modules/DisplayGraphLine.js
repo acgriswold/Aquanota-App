@@ -3,6 +3,7 @@ import '../css/Chart.css';
 import { ResponsiveLine } from "@nivo/line";
 
 import TankMenu from "./TankMenu";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 let dataSet = [{
                 "id": "",
@@ -30,7 +31,7 @@ class DisplayGraphLine extends Component {
         super(props);
         this.state = {
             error: null,
-            isLoaded: true,
+            isLoaded: false,
             data: [{
                 "id": "",
                 "color": "hsl(353, 70%, 50%)",
@@ -41,6 +42,8 @@ class DisplayGraphLine extends Component {
             }]
         };
 
+        const displayGraph = this;
+
         fetch("https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1",
             {
                 method: "GET"
@@ -48,10 +51,14 @@ class DisplayGraphLine extends Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({
+                    setTimeout(function() {
+                        displayGraph.setState({
                         isLoaded: true,
-                        data: result.data
-                    });
+                        data: result.data,
+                        error: false
+                        });
+                    }, 1000);
+                        
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -59,7 +66,7 @@ class DisplayGraphLine extends Component {
                 (error) => {
                     this.setState({
                         isLoaded: true,
-                        error: false
+                        error
                     });
                 }
             )
@@ -83,7 +90,13 @@ class DisplayGraphLine extends Component {
                     if (result.data){
                         this.setState({
                             isLoaded: true,
-                            data: result.data
+                            data: result.data,
+                            error: false
+                        });
+                    } else {
+                        this.setState({
+                            isLoaded: true,
+                            error: true
                         });
                     }
                 },
@@ -94,7 +107,7 @@ class DisplayGraphLine extends Component {
                     console.log(error);
                     this.setState({
                         isLoaded: true,
-                        error: false
+                        error
                     });
                 }
             )
@@ -109,25 +122,50 @@ class DisplayGraphLine extends Component {
         this._updateGraph();
 
         if (error) {
-            return (<code> error! </code>)
-        } else if (!isLoaded) {
-            return (<header className="Chart-header">
-                        <p>
-                            <code> 
-                                Loading... 
-                            </code> 
-                        </p>
-                    </header>)
-        } else {
-            return (
-                <div className="Display">
+            return (<div className="Display">
                     <header className="Chart-header">
-                        <p>
+                        <span>
                             <code> 
                                 Currently Viewing: 
                                 <TankMenu onChange={this.onChange.bind(this)}></TankMenu>
                             </code> 
-                        </p>
+                        </span>
+                    </header>
+                    <div className="Display-chart">
+                        <header className="Chart-header">
+                        <span>
+                            <code style={{color: 'white'}}> We have run into an error!  Please try again. </code>
+                        </span>
+                    </header>
+                    </div>
+                </div>
+            )
+        } else if (!isLoaded) {
+            return (<div className="Display">
+                    <header className="Chart-header">
+                        <span>
+                            <code> 
+                                We are currently loading your data!
+                                <br></br>
+                                This may take a while...
+                            </code> 
+                        </span>
+                    </header>
+                    <div className="Display-chart">
+                        <LinearProgress></LinearProgress>
+                        <LinearProgress></LinearProgress>
+                    </div>
+                </div>)
+        } else {
+            return (
+                <div className="Display">
+                    <header className="Chart-header">
+                        <span>
+                            <code> 
+                                Currently Viewing: 
+                                <TankMenu onChange={this.onChange.bind(this)}></TankMenu>
+                            </code> 
+                        </span>
                     </header>
                     <div className="Display-chart">
                         <ResponsiveLine

@@ -26,6 +26,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(7px + 2vmin);
+  padding: .50em;
 }
 
 /* since nivo hard codes legend colors to be black, this changes it */

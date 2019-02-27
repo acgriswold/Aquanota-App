@@ -7,6 +7,7 @@ import './css/App.css';
 
 import Overview from "./custom_pages/Overview";
 import Page404 from "./custom_pages/Page404";
+import Messages from "./custom_pages/Messages";
 
 import WarningDialog from "./custom_modules/WarningDialog";
 
@@ -28,11 +29,13 @@ class App extends Component {
           items={[
             <Link className="App-link" to="/"> Home </Link>,
             <Link className="App-link" to="/overview"> Overview </Link>,
+            <Link className="App-link" to="/messages"> Messages </Link>,
             <Link className="App-link" to="/logout"> Logout </Link>,
             ]} />
         <Switch>
           <Route exact path="/" component={ Splash } />
-          <Route path="/Overview" component={ Overview } />
+          <Route path="/overview" component={ Overview } />
+          <Route path="/messages" component={ Messages } />
           <Route component={ Page404 } />
         </Switch>
         <div className = "Navigation-footer">
@@ -48,7 +51,7 @@ const Splash = () => (<header className="App-header">
           <p>
             <code>Aquanota...</code> #1 Aquaponics Graphing App.
           </p>
-          <Link to="/Overview" className="App-link"> 
+          <Link to="/overview" className="App-link"> 
               Continue to App 
           </Link>
         </header>
