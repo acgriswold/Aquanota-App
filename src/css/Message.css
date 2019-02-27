@@ -1,0 +1,23 @@
+.MessageBoard {
+    background-color: inherit;
+    text-align: center;
+    color: white;
+}
+
+.MessageBoard-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(7px + 2vmin);
+  padding: 1em;
+}
+
+.MessageBoard-body {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 1vmin);
+}

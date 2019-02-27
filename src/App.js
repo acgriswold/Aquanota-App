@@ -7,7 +7,7 @@ import './css/App.css';
 
 import Overview from "./custom_pages/Overview";
 import Page404 from "./custom_pages/Page404";
-import Messages from "./custom_pages/Messages";
+import MessageBoard from "./custom_pages/MessageBoard";
 
 import WarningDialog from "./custom_modules/WarningDialog";
 
@@ -35,7 +35,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={ Splash } />
           <Route path="/overview" component={ Overview } />
-          <Route path="/messages" component={ Messages } />
+          <Route path="/messages" component={ MessageBoard } />
           <Route component={ Page404 } />
         </Switch>
         <div className = "Navigation-footer">
