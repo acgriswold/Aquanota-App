@@ -27,6 +27,56 @@ const styles = theme => ({
   },
 });
 
+const data = [{
+                  date: "2019-3-27",
+                  tankNumber: "1",
+                  pH: 6.3,
+                  temp: 32,
+                  ec: 324,
+                  message: "On Track"
+                },
+                {
+                  date: "2019-3-26",
+                  tankNumber: "2",
+                  pH: 6.3,
+                  temp: 32,
+                  ec: 324,
+                  message: "On Track"
+                },
+                {
+                  date: "2019-3-24",
+                  tankNumber: "1",
+                  pH: 6.3,
+                  temp: 32,
+                  ec: 324,
+                  message: "On Track"
+                },
+                {
+                  date: "2019-3-23",
+                  tankNumber: "2",
+                  pH: 6.3,
+                  temp: 32,
+                  ec: 324,
+                  message: "On Track"
+                },
+                {
+                  date: "2019-3-22",
+                  tankNumber: "2",
+                  pH: 6.3,
+                  temp: 32,
+                  ec: 324,
+                  message: "On Track"
+                },
+                {
+                  date: "2019-3-21",
+                  tankNumber: "2",
+                  pH: 2,
+                  temp: 32,
+                  ec: 324,
+                  message: "At Risk"
+                }
+
+]
 
 class MessageAccordion extends React.Component {
   state = {
@@ -43,56 +93,25 @@ class MessageAccordion extends React.Component {
     const { classes } = this.props;
     const { expanded } = this.state;
 
+    var panels = data.map((comp, i) => {
+        // replace option with your component name
+        return <ExpansionPanel expanded={expanded === i} onChange={this.handleChange(i)}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>{comp.date} Check:</Typography>
+            <Typography className={classes.secondaryHeading}>Tank {comp.tank}: {comp.message}</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography>
+                    pH levels are at {comp.pH}.  Temperature levels are at {comp.temp} C.  
+                    Electro Conductivity levels are at {comp.ec} µS / cm
+            </Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+    })
+
     return (
       <div className={classes.root}>
-        <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>2/27/2019 Check:</Typography>
-            <Typography className={classes.secondaryHeading}>Tank 1: High Risk</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-                    pH levels are at 9.  Temperature levels are at 16.9 C.  
-                    Electro Conductivity levels are at 1032 µS / cm
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>2/26/2019 Check:</Typography>
-            <Typography className={classes.secondaryHeading}>Tank 1: Mid Warning</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-                    pH levels are at 8.2.  Temperature levels are at 28.5 C.  
-                    Electro Conductivity levels are at 643 µS / cm
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>2/24/2019 Check:</Typography>
-            <Typography className={classes.secondaryHeading}>Tank 2: On Track</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-                    pH levels are at 7.4.  Temperature levels are at 34.2 C.  
-                    Electro Conductivity levels are at 312 µS / cm
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>2/22/2019 Check:</Typography>
-            <Typography className={classes.secondaryHeading}>Tank 1: On Track</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-                    pH levels are at 6.  Temperature levels are at 32.4 C.  
-                    Electro Conductivity levels are at 232 µS / cm
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+        {panels}
       </div>
     );
   }

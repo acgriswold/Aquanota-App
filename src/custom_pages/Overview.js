@@ -7,7 +7,7 @@ import DisplayGraphPie from "../custom_modules/DisplayGraphPie";
 class Overview extends Component {
   render() {
     return <div className = "Overview">
-          <DisplayGraphLine/>
+          <DisplayGraphLine id=""/>
           <DisplayGraphPie/>
       </div>;
   }

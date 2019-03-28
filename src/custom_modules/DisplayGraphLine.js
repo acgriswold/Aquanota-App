@@ -32,6 +32,7 @@ class DisplayGraphLine extends Component {
         this.state = {
             error: null,
             isLoaded: false,
+            sensorType: props.id,
             data: [{
                 "id": "",
                 "color": "hsl(353, 70%, 50%)",
@@ -43,22 +44,55 @@ class DisplayGraphLine extends Component {
         };
 
         const displayGraph = this;
+        var url = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1/2019-3-12/2019-3-13/"
+        url += this.state.sensorType;
 
-        fetch("https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1",
+        fetch(url,
             {
                 method: "GET"
             })
             .then(res => res.json())
             .then(
                 (result) => {
+                    var data = result.Items;
+
+                    //Group data by SubjectEventID
+                    var groupedData = data.reduce(function (r, a) {
+                        //Used as Object for Iterations
+                        r[a.SubjectEventID] = r[a.SubjectEventID] || [];
+                        r[a.SubjectEventID].push(a);
+
+                        return r;
+                    }, []);
+
+                    var graphData = [];
+                    //Loops through groupedData and and sort for each sensor
+                    Object.keys(groupedData).forEach(function (key, index) {
+                        var sensorData = {
+                            id: key,
+                            color: "hsl(353, 70%, 50%)",
+                        };
+
+                        //Find averages for each data and save to data;
+                        sensorData.data = displayGraph._returnAverageResult(this[key]);
+
+                        //Sort averages by date
+                        sensorData.data.sort(function (a, b) {
+                            // Turn your strings into dates, and then subtract them
+                            // to get a value that is either negative, positive, or zero.
+                            return new Date(a.x) - new Date(b.x);
+                        });
+
+                        graphData.push(sensorData)
+                    }, groupedData);
+
                     setTimeout(function() {
                         displayGraph.setState({
                         isLoaded: true,
-                        data: result.data,
+                        data: graphData,
                         error: false
                         });
-                    }, 1000);
-                        
+                    }, 1000); 
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow
@@ -79,20 +113,60 @@ class DisplayGraphLine extends Component {
     onChange(field, value) {
         // parent class change handler is always called with field name and value
         this.setState({[field]: value});
+
+        const displayGraph = this;
         let reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/"
-        //send request to specific url for selected tank
+        //filter by selected tank
         reqURL += value;
+        //filter by dates
+        reqURL += "/2019-3-12/2019-3-14/"
+        //filter by sensorType
+        reqURL += this.state.sensorType;
 
         fetch(reqURL, {method: "GET"})
             .then(res => res.json())
             .then(
                 (result) => {
-                    if (result.data){
-                        this.setState({
-                            isLoaded: true,
-                            data: result.data,
-                            error: false
+                    if (result.Items){
+                    var data = result.Items;
+
+                    //Group data by SubjectEventID
+                    var groupedData = data.reduce(function (r, a) {
+                        //Used as Object for Iterations
+                        r[a.SubjectEventID] = r[a.SubjectEventID] || [];
+                        r[a.SubjectEventID].push(a);
+
+                        return r;
+                    }, []);
+
+                    var graphData = [];
+                    //Loops through groupedData and and sort for each sensor
+                    Object.keys(groupedData).forEach(function (key, index) {
+                        var sensorData = {
+                            id: key,
+                            color: "hsl(353, 70%, 50%)",
+                        };
+
+                        //Find averages for each data and save to data;
+                        sensorData.data = displayGraph._returnAverageResult(this[key]);
+
+                        //Sort averages by date
+                        sensorData.data.sort(function (a, b) {
+                            // Turn your strings into dates, and then subtract them
+                            // to get a value that is either negative, positive, or zero.
+                            return new Date(a.x) - new Date(b.x);
                         });
+
+                        graphData.push(sensorData)
+                    }, groupedData);
+
+                    setTimeout(function() {
+                        displayGraph.setState({
+                        isLoaded: true,
+                        data: graphData,
+                        error: false
+                        });
+                    }, 1000); 
                     } else {
                         this.setState({
                             isLoaded: true,
@@ -116,6 +190,46 @@ class DisplayGraphLine extends Component {
     changeDate = event => {
         this.setState({ anchorEl: event.currentTarget });
     };
+
+    _returnAverageResult(objectArr) {
+        // group the data
+        var groupedData = objectArr.reduce(function (l, r) {
+            // construct a unique key out of the properties we want to group by
+            var key = r.SubjectEventID + "|" + r.SubmitterDate;
+
+            // check if the key is already known
+            if (typeof l[key] === "undefined") {
+                // init with an "empty" object
+                l[key] = {
+                    sum: 0,
+                    count: 0
+                };
+            }
+
+            // sum up the values and count the occurences
+            l[key].sum += r.SubjectEventData;
+            l[key].count += 1;
+
+            return l;
+        }, {});
+
+        // calculate the averages
+        var avgGroupedData = Object.keys(groupedData)
+            // iterate over the elements in <groupedData> and transform them into the "old" format
+            .map(function (key) {
+                // split the constructed key to get the parts
+                var keyParts = key.split(/\|/);
+                // construct the "old" format including the average value
+                return {
+                    x: keyParts[1],
+                    y: (groupedData[key].sum / groupedData[key].count)
+                };
+            });
+
+        console.log(avgGroupedData);
+
+        return avgGroupedData;
+    }
     
     render() {
         let { error, isLoaded } = this.state;
