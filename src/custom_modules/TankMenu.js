@@ -56,9 +56,10 @@ class TankMenu extends React.Component {
           onClose={this.handleClose}
         >
           <MenuItem onClick={this.handleClose}>Tank 1</MenuItem>
+          {/* TODO: dynamic append based on registered tanks in database
           <MenuItem onClick={this.handleClose}>Tank 2</MenuItem>
           <MenuItem onClick={this.handleClose}>Tank 3</MenuItem>
-          <MenuItem onClick={this.handleClose}>Tank 4</MenuItem>
+          <MenuItem onClick={this.handleClose}>Tank 4</MenuItem> */}
         </Menu>
       </div>
     );

@@ -7,6 +7,7 @@
 .Display-chart, .Display-pie {
   height: 500px;
   width: 100vw;
+  max-width: 100vw; /* find balance for large to small screens */
   background-color: rgba(165, 215, 255, 0.055);
   font-size: calc(5px + 1vmin);
   color: black;

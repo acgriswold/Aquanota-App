@@ -40,10 +40,13 @@ class DisplayGraphLine extends Component {
         };
 
         const displayGraph = this;
-        var url = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1/2019-3-12/2019-3-13/"
-        url += this.state.sensorType;
+        var reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1/sensordata/"
+        //filter by sensorType
+        reqURL += this.state.sensorType;
+        //filter by dates
+        // reqURL += "/1/99999999999999/"
 
-        fetch(url,
+        fetch(reqURL,
             {
                 method: "GET"
             })
@@ -52,40 +55,41 @@ class DisplayGraphLine extends Component {
                 (result) => {
                     var data = result.Items;
 
+                    var sortedSensorData = [];
                     //Group data by SubjectEventID
-                    var groupedData = data.reduce(function (r, a) {
-                        //Used as Object for Iterations
-                        r[a.SubjectEventID] = r[a.SubjectEventID] || [];
-                        r[a.SubjectEventID].push(a);
-
+                    var groupedBySensor = data.reduce(function (r, a) {
+                        if (a.SubjectEventID) {
+                            r[a.SubjectEventID] = r[a.SubjectEventID] || [];
+                            r[a.SubjectEventID].push(a);
+                        }
                         return r;
                     }, []);
 
-                    var graphData = [];
-                    //Loops through groupedData and and sort for each sensor
-                    Object.keys(groupedData).forEach(function (key, index) {
-                        var sensorData = {
+                    //Loops through groupedBySensor and sort for date
+                    //Find averages for each date
+                    Object.keys(groupedBySensor).forEach(function (key, index) {
+                        var averagedData = {
                             id: key,
-                            color: "hsl(353, 70%, 50%)",
+                            color: "hsl(1, 70%, 50%)",
                         };
 
-                        //Find averages for each data and save to data;
-                        sensorData.data = displayGraph._returnAverageResult(this[key]);
-
+                        //Find averages for each date and save to data;
+                        averagedData.data = displayGraph._returnAverageResult(this[key]);
+                        
                         //Sort averages by date
-                        sensorData.data.sort(function (a, b) {
+                        averagedData.data.sort(function (a, b) {
                             // Turn your strings into dates, and then subtract them
                             // to get a value that is either negative, positive, or zero.
                             return new Date(a.x) - new Date(b.x);
                         });
 
-                        graphData.push(sensorData)
-                    }, groupedData);
+                        sortedSensorData.push(averagedData)
+                    }, groupedBySensor);
 
                     setTimeout(function() {
                         displayGraph.setState({
                         isLoaded: true,
-                        data: graphData,
+                        data: sortedSensorData,
                         error: false
                         });
                     }, 1000); 
@@ -110,77 +114,70 @@ class DisplayGraphLine extends Component {
         // parent class change handler is always called with field name and value
         this.setState({[field]: value});
 
-        const displayGraph = this;
-        let reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/"
-        //filter by selected tank
-        reqURL += value;
-        //filter by dates
-        reqURL += "/2019-3-12/2019-3-14/"
-        //filter by sensorType
-        reqURL += this.state.sensorType;
+       const displayGraph = this;
+       var reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1/sensordata/"
+       //filter by sensorType
+       reqURL += this.state.sensorType;
+       //filter by dates
+       // reqURL += "/1/99999999999999/"
 
-        fetch(reqURL, {method: "GET"})
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    if (result.Items){
-                    var data = result.Items;
+       fetch(reqURL, {
+            method: "GET"
+        })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                var data = result.Items;
 
-                    //Group data by SubjectEventID
-                    var groupedData = data.reduce(function (r, a) {
-                        //Used as Object for Iterations
+                var sortedSensorData = [];
+                //Group data by SubjectEventID
+                var groupedBySensor = data.reduce(function (r, a) {
+                    if (a.SubjectEventID) {
                         r[a.SubjectEventID] = r[a.SubjectEventID] || [];
                         r[a.SubjectEventID].push(a);
-
-                        return r;
-                    }, []);
-
-                    var graphData = [];
-                    //Loops through groupedData and and sort for each sensor
-                    Object.keys(groupedData).forEach(function (key, index) {
-                        var sensorData = {
-                            id: key,
-                            color: "hsl(353, 70%, 50%)",
-                        };
-
-                        //Find averages for each data and save to data;
-                        sensorData.data = displayGraph._returnAverageResult(this[key]);
-
-                        //Sort averages by date
-                        sensorData.data.sort(function (a, b) {
-                            // Turn your strings into dates, and then subtract them
-                            // to get a value that is either negative, positive, or zero.
-                            return new Date(a.x) - new Date(b.x);
-                        });
-
-                        graphData.push(sensorData)
-                    }, groupedData);
-
-                    setTimeout(function() {
-                        displayGraph.setState({
-                        isLoaded: true,
-                        data: graphData,
-                        error: false
-                        });
-                    }, 1000); 
-                    } else {
-                        this.setState({
-                            isLoaded: true,
-                            error: true
-                        });
                     }
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                    console.log(error);
-                    this.setState({
-                        isLoaded: true,
-                        error
+                    return r;
+                }, []);
+
+                //Loops through groupedBySensor and sort for date
+                //Find averages for each date
+                Object.keys(groupedBySensor).forEach(function (key, index) {
+                    var averagedData = {
+                        id: key,
+                        color: "hsl(1, 70%, 50%)",
+                    };
+
+                    //Find averages for each date and save to data;
+                    averagedData.data = displayGraph._returnAverageResult(this[key]);
+
+                    //Sort averages by date
+                    averagedData.data.sort(function (a, b) {
+                        // Turn your strings into dates, and then subtract them
+                        // to get a value that is either negative, positive, or zero.
+                        return new Date(a.x) - new Date(b.x);
                     });
-                }
-            )
+
+                    sortedSensorData.push(averagedData)
+                }, groupedBySensor);
+
+                setTimeout(function () {
+                    displayGraph.setState({
+                        isLoaded: true,
+                        data: sortedSensorData,
+                        error: false
+                    });
+                }, 1000);
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            }
+        )
     };
 
     changeDate = event => {
@@ -191,7 +188,9 @@ class DisplayGraphLine extends Component {
         // group the data
         var groupedData = objectArr.reduce(function (l, r) {
             // construct a unique key out of the properties we want to group by
-            var key = r.SubjectEventID + "|" + r.SubmitterDate;
+            // submitter date will only be year, month, day
+            var dayOnly = r.SubmitterDate.substring(0, 8);
+            var key = r.SubjectEventID + "|" + dayOnly;
 
             // check if the key is already known
             if (typeof l[key] === "undefined") {
@@ -202,7 +201,7 @@ class DisplayGraphLine extends Component {
                 };
             }
 
-            // sum up the values and count the occurences
+            // sum up the values and count iterations
             l[key].sum += r.SubjectEventData;
             l[key].count += 1;
 
@@ -215,14 +214,13 @@ class DisplayGraphLine extends Component {
             .map(function (key) {
                 // split the constructed key to get the parts
                 var keyParts = key.split(/\|/);
-                // construct the "old" format including the average value
+                // construct {x, y} format including the average value
+                // x is dayOnly y is data
                 return {
                     x: keyParts[1],
                     y: (groupedData[key].sum / groupedData[key].count)
                 };
             });
-
-        console.log(avgGroupedData);
 
         return avgGroupedData;
     }
@@ -236,7 +234,7 @@ class DisplayGraphLine extends Component {
                     <header className="Chart-header">
                         <span>
                             <code> 
-                                Currently Viewing: 
+                                Currently Viewing Averages: 
                                 <TankMenu onChange={this.onChange.bind(this)}></TankMenu>
                             </code> 
                         </span>
@@ -272,7 +270,7 @@ class DisplayGraphLine extends Component {
                     <header className="Chart-header">
                         <span>
                             <code> 
-                                Currently Viewing: 
+                                Currently Viewing Averages: 
                                 <TankMenu onChange={this.onChange.bind(this)}></TankMenu>
                             </code> 
                         </span>
@@ -338,7 +336,7 @@ class DisplayGraphLine extends Component {
                                     ,
                                     "itemsSpacing": 0,
                                     "itemDirection": "left-to-right",
-                                    "itemWidth": 80,
+                                    "itemWidth": 85,
                                     "itemHeight": 20,
                                     "itemOpacity": 0.75,
                                     "symbolSize": 12,

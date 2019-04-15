@@ -7,6 +7,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 const styles = theme => ({
   root: {
@@ -79,6 +81,58 @@ const data = [{
 ]
 
 class MessageAccordion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      sensorType: props.id,
+      data: [{
+        "id": "",
+        "color": "hsl(353, 70%, 50%)",
+        "data": [{
+          "x": 0,
+          "y": 0
+        }]
+      }]
+    };
+
+    const accordion = this;
+    var reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1"
+    //filter by dates
+    reqURL += "/0/99999999999999";
+    // var payload = {"payload": [{ "id": "pH", "data": 8.00 }, { "id": "temperature", "data": 32.00 }, { "id": "conductivity", "data": 534.00 }]};
+    
+    fetch(reqURL, {
+        method: "GET"
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          var returnedData = result;
+
+          console.log(returnedData);
+          // setTimeout(function () {
+            accordion.setState({
+              isLoaded: true,
+              data: data,
+              error: false
+            });
+          // }, 1000);
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error)
+          accordion.setState({
+            isLoaded: true,
+            error: true
+          });
+        }
+      )
+  }
+
   state = {
     expanded: null,
   };
@@ -91,7 +145,7 @@ class MessageAccordion extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { expanded } = this.state;
+    const { expanded, error, isLoaded } = this.state;
 
     var panels = data.map((comp, i) => {
         // replace option with your component name
@@ -109,11 +163,40 @@ class MessageAccordion extends React.Component {
         </ExpansionPanel>
     })
 
-    return (
-      <div className={classes.root}>
-        {panels}
-      </div>
-    );
+        if (error) {
+            return (<div className="MessageBoard">
+                    <div className="MessageBoard-body">
+                        <header className="MessageBoard-header">
+                          <span>
+                              <code style={{color: 'white'}}> We have run into an error!  Please try again. </code>
+                          </span>
+                      </header>
+                    </div>
+                </div>
+            )
+        } else if (!isLoaded) {
+            return (<div className="MessageBoard">
+                    <header className="MessageBoard-header">
+                        <span>
+                            <code> 
+                                We are currently loading your data!
+                                <br></br>
+                                This may take a while...
+                            </code> 
+                        </span>
+                    </header>
+                    <div className="MessageBoard-body">
+                        <LinearProgress></LinearProgress>
+                        <LinearProgress></LinearProgress>
+                    </div>
+                </div>)
+        } else {
+            return (
+              <div className={classes.root}>
+                {panels}
+              </div>
+            );
+        }
   }
 }
 

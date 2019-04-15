@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import MessageAccordion from "../custom_modules/MessageAccordion";
 import '../css/App.css';
