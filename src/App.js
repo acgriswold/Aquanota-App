@@ -39,7 +39,7 @@ class App extends Component {
           <Route component={ Page404 } />
         </Switch>
         <div className = "Navigation-footer">
-        <WarningDialog></WarningDialog>
+          <WarningDialog></WarningDialog>
         </div>
       </div>
     </Router>;
