@@ -4,13 +4,24 @@
     color: white;
 }
 
-.Display-chart, .Display-pie {
+.Display-chart {
+  flex: 0 0 100vw;
   height: 500px;
-  width: 100vw;
+  width: 32.50vw;
   max-width: 100vw; /* find balance for large to small screens */
   background-color: rgba(165, 215, 255, 0.055);
   font-size: calc(5px + 1vmin);
-  color: black;
+  color: #000000;
+}
+
+.Display-pie {
+  height: 500px;
+  width: 100vw;
+  max-width: 100vw;
+  /* find balance for large to small screens */
+  background-color: rgba(165, 215, 255, 0.055);
+  font-size: calc(5px + 1vmin);
+  color: #000000;
 }
 
 /* .Display-pie {
@@ -35,6 +46,22 @@ text {
   fill: rgba(255, 255, 255, 0.75) !important;
 }
 
+
+@media only screen and (max-width: 1750px) {
+  /* For about half screen: */
+  .Display-chart {
+    height: 350px;
+    width: 45vw;
+  }
+}
+
+@media only screen and (max-width: 1007px) {
+  /* For medium screens: */
+  .Display-chart, .Display-pie {
+    width: 100vw;
+  }
+}
+
 @media only screen and (max-width: 812px) {
   /* For mobile phones: */
   text {
@@ -45,6 +72,10 @@ text {
   }
   rect+circle+text {
     fill: rgba(255, 255, 255, 0.75) !important;
+  }
+  .Display-chart, .Display-pie {
+    height: 350px;
+    width: 100vw;
   }
 }
 

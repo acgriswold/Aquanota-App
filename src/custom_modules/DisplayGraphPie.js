@@ -5,24 +5,29 @@ import { ResponsivePie } from "@nivo/pie";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 let dataSet = [{
-            "id": "Chlorate",
-            "label": "Chlorate",
-            "value": 266,
+            "id": "Chloride",
+            "label": "Chloride",
+            "value": 13,
         },
         {
             "id": "Nitrate",
             "label": "Nitrate",
-            "value": 165,
+            "value": 16,
         },
         {
             "id": "Nitrite",
             "label": "Nitrite",
-            "value": 80,
+            "value": 18,
         },
         {
-            "id": "Dissolved Oxygen",
-            "label": "Dissolved Oxygen",
-            "value": 92,
+            "id": "DO",
+            "label": "DO",
+            "value": 21,
+        },
+        {
+            "id": "Other",
+            "label": "Other",
+            "value": 32,
         }
     ];
 
@@ -42,25 +47,31 @@ class DisplayGraphPie extends Component {
             isLoaded: false,
             sensorType: props.id,
             data: [{
-                "id": "Chlorate",
-                "label": "Chlorate",
-                "value": 266,
-            },
-            {
-                "id": "Nitrate",
-                "label": "Nitrate",
-                "value": 165,
-            },
-            {
-                "id": "Nitrite",
-                "label": "Nitrite",
-                "value": 80,
-            },
-            {
-                "id": "Dissolved Oxygen",
-                "label": "Dissolved Oxygen",
-                "value": 92,
-            }]
+                    "id": "Chloride",
+                    "label": "Chloride",
+                    "value": 13,
+                },
+                {
+                    "id": "Nitrate",
+                    "label": "Nitrate",
+                    "value": 16,
+                },
+                {
+                    "id": "Nitrite",
+                    "label": "Nitrite",
+                    "value": 18,
+                },
+                {
+                    "id": "DO",
+                    "label": "DO",
+                    "value": 21,
+                },
+                {
+                    "id": "Other",
+                    "label": "Other",
+                    "value": 32,
+                }
+            ]
         };
 
         const displayGraph = this;
@@ -75,8 +86,8 @@ class DisplayGraphPie extends Component {
         //commented out because logic isn't really here
         //id want parts per million with different nutrients in water
         //doesn't work with pH vs conductivity vs temp
-        // var url = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1/1-1-1/9999-12-31/"
-
+        // url = ...
+        
         // fetch(url, {
         //         method: "GET"
         //     })
@@ -183,7 +194,7 @@ class DisplayGraphPie extends Component {
                 <div className="Display">
                     <header className="Chart-header">
                         <p>
-                            <code> All Time Averages </code>
+                            <code> Percentage Makeup (Unimplemented Showcase) </code>
                         </p>
                     </ header>
                     <div className="Display-pie">

@@ -29,56 +29,55 @@ const styles = theme => ({
   },
 });
 
-const data = [{
-                  date: "2019-3-27",
-                  tankNumber: "1",
-                  pH: 6.3,
-                  temp: 32,
-                  ec: 324,
-                  message: "On Track"
-                },
-                {
-                  date: "2019-3-26",
-                  tankNumber: "2",
-                  pH: 6.3,
-                  temp: 32,
-                  ec: 324,
-                  message: "On Track"
-                },
-                {
-                  date: "2019-3-24",
-                  tankNumber: "1",
-                  pH: 6.3,
-                  temp: 32,
-                  ec: 324,
-                  message: "On Track"
-                },
-                {
-                  date: "2019-3-23",
-                  tankNumber: "2",
-                  pH: 6.3,
-                  temp: 32,
-                  ec: 324,
-                  message: "On Track"
-                },
-                {
-                  date: "2019-3-22",
-                  tankNumber: "2",
-                  pH: 6.3,
-                  temp: 32,
-                  ec: 324,
-                  message: "On Track"
-                },
-                {
-                  date: "2019-3-21",
-                  tankNumber: "2",
-                  pH: 2,
-                  temp: 32,
-                  ec: 324,
-                  message: "At Risk"
-                }
 
-]
+// const data = [{
+//                   date: "2019-3-27",
+//                   tankNumber: "1",
+//                   pH: 6.3,
+//                   temp: 32,
+//                   ec: 324,
+//                   message: "On Track"
+//                 },
+//                 {
+//                   date: "2019-3-26",
+//                   tankNumber: "2",
+//                   pH: 6.3,
+//                   temp: 32,
+//                   ec: 324,
+//                   message: "On Track"
+//                 },
+//                 {
+//                   date: "2019-3-24",
+//                   tankNumber: "1",
+//                   pH: 6.3,
+//                   temp: 32,
+//                   ec: 324,
+//                   message: "On Track"
+//                 },
+//                 {
+//                   date: "2019-3-23",
+//                   tankNumber: "2",
+//                   pH: 6.3,
+//                   temp: 32,
+//                   ec: 324,
+//                   message: "On Track"
+//                 },
+//                 {
+//                   date: "2019-3-22",
+//                   tankNumber: "2",
+//                   pH: 6.3,
+//                   temp: 32,
+//                   ec: 324,
+//                   message: "On Track"
+//                 },
+//                 {
+//                   date: "2019-3-21",
+//                   tankNumber: "2",
+//                   pH: 2,
+//                   temp: 32,
+//                   ec: 324,
+//                   message: "At Risk"
+//                 }]
 
 class MessageAccordion extends React.Component {
   constructor(props) {
@@ -88,19 +87,19 @@ class MessageAccordion extends React.Component {
       isLoaded: false,
       sensorType: props.id,
       data: [{
-        "id": "",
-        "color": "hsl(353, 70%, 50%)",
-        "data": [{
-          "x": 0,
-          "y": 0
-        }]
+        date: "",
+        tankNumber: "1",
+        pH: 0,
+        temp: 0,
+        ec: 0,
+        message: "On Track"
       }]
     };
 
     const accordion = this;
-    var reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1"
-    //filter by dates
-    reqURL += "/0/99999999999999";
+    var reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/messages/1"
+    //filter by dates YYYYMMDDhhmmss
+    // reqURL += "/0/99999999999999";
     // var payload = {"payload": [{ "id": "pH", "data": 8.00 }, { "id": "temperature", "data": 32.00 }, { "id": "conductivity", "data": 534.00 }]};
     
     fetch(reqURL, {
@@ -109,16 +108,51 @@ class MessageAccordion extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          var returnedData = result;
+          var data = result;
 
-          console.log(returnedData);
-          // setTimeout(function () {
+          //Group data by date)
+          var groupedData = data.reduce(function (r, a) {
+            var date = a.date;
+            var formattedKey = date.substring(0,4) + "-" + date.substring(4,6) + "-" + date.substring(6,8) + " " + date.substring(8,10) + ":" + date.substring(10,12) + ":" + date.substring(12,14);
+            //Used as Object for Iterations
+            r[formattedKey] = r[formattedKey] || [];
+            r[formattedKey].push(a);
+
+            return r;
+          }, []);
+
+          var graphData = [];
+          //Loops through groupedData and and sort for each sensor
+          Object.keys(groupedData).forEach(function (key, index) {
+            var timestampData = {
+              date: key,
+              number: "1",
+              status: "on Track"
+            };
+
+            //Find averages for each data and save to data;
+            timestampData = accordion._returnAverageResult(this[key], timestampData);
+            
+            graphData.push(timestampData);
+          }, groupedData);
+
+          //Sort averages by date
+          graphData.sort(function (a, b) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(b.date) - new Date(a.date);
+          });
+
+          accordion.setState({
+            data: graphData,
+          });
+          setTimeout(function () {
             accordion.setState({
+              data: graphData,
+              error: false,
               isLoaded: true,
-              data: data,
-              error: false
             });
-          // }, 1000);
+          }, 1000);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -133,6 +167,40 @@ class MessageAccordion extends React.Component {
       )
   }
 
+  _returnAverageResult(objectArr, timestampData) {
+
+    // TODO: Have work with Multiple Tanks
+    // group the data
+    objectArr.reduce(function (l, r) {
+        // construct a unique key out of the properties we want to group by
+        var primaryKey = r.sensorType;
+
+        // check if the key is already known
+        if (typeof l[primaryKey] === "undefined") {
+            // init with an "empty" object
+            l[primaryKey] = {
+                data: r.data,
+                message: r.message
+            };
+            timestampData[primaryKey] = {
+                data: r.data,
+                message: r.message
+            };
+            if (timestampData.status === "on Track" && (l[primaryKey].message.riskLevel === "Moderate risk" || l[primaryKey].message.riskLevel === "Severe risk")) {
+              timestampData.status = l[primaryKey].message.riskLevel;
+            } else if (l[primaryKey].tankStatus === "Moderate risk" && l[primaryKey].message.riskLevel === "Severe risk") {
+              timestampData.status = l[primaryKey].message.riskLevel;
+            }
+        }
+
+        return l;
+    }, []);
+
+
+
+    return timestampData;
+  }
+
   state = {
     expanded: null,
   };
@@ -143,60 +211,75 @@ class MessageAccordion extends React.Component {
     });
   };
 
+  _doesExist(object, key, units) {
+    var returnMsg = "";
+    if (object) {
+      returnMsg = key + " levels are at " + object.data + " " + units + ".\nThese levels are " + object.message.riskLevel;
+    }
+    return returnMsg
+  }
+
   render() {
     const { classes } = this.props;
     const { expanded, error, isLoaded } = this.state;
 
-    var panels = data.map((comp, i) => {
-        // replace option with your component name
-        return <ExpansionPanel expanded={expanded === i} onChange={this.handleChange(i)}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{comp.date} Check:</Typography>
-            <Typography className={classes.secondaryHeading}>Tank {comp.tank}: {comp.message}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-                    pH levels are at {comp.pH}.  Temperature levels are at {comp.temp} C.  
-                    Electro Conductivity levels are at {comp.ec} µS / cm
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-    })
 
-        if (error) {
-            return (<div className="MessageBoard">
-                    <div className="MessageBoard-body">
-                        <header className="MessageBoard-header">
-                          <span>
-                              <code style={{color: 'white'}}> We have run into an error!  Please try again. </code>
-                          </span>
-                      </header>
-                    </div>
-                </div>
-            )
-        } else if (!isLoaded) {
-            return (<div className="MessageBoard">
+
+    if (error) {
+        return (<div className="MessageBoard">
+                <div className="MessageBoard-body">
                     <header className="MessageBoard-header">
-                        <span>
-                            <code> 
-                                We are currently loading your data!
-                                <br></br>
-                                This may take a while...
-                            </code> 
-                        </span>
-                    </header>
-                    <div className="MessageBoard-body">
-                        <LinearProgress></LinearProgress>
-                        <LinearProgress></LinearProgress>
-                    </div>
-                </div>)
-        } else {
-            return (
-              <div className={classes.root}>
-                {panels}
-              </div>
-            );
-        }
+                      <span>
+                          <code style={{color: 'white'}}> We have run into an error!  Please try again. </code>
+                      </span>
+                  </header>
+                </div>
+            </div>
+        )
+    } else if (!isLoaded) {
+        return (<div className="MessageBoard">
+                <header className="MessageBoard-header">
+                    <span>
+                        <code> 
+                            We are currently loading your data!
+                            <br></br>
+                            This may take a while...
+                        </code> 
+                    </span>
+                </header>
+                <div className="MessageBoard-body">
+                    <LinearProgress></LinearProgress>
+                    <LinearProgress></LinearProgress>
+                </div>
+            </div>)
+    } else {
+        var panels = this.state.data.map((comp, i) => {
+          // replace option with your component name
+            return <ExpansionPanel key={i} expanded={expanded === i} onChange={this.handleChange(i)}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>{comp.date} Check:</Typography>
+                <Typography className={classes.secondaryHeading}>Tank {comp.number}: {comp.status}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography>
+                        {this._doesExist(comp.pH, "pH", "")}  
+                        <br/>
+                        {this._doesExist(comp.temperature, "Temperature", "C")} 
+                        <br/>
+                        {/* Temperature levels are at {comp.temp.data} C.   */}
+                        {this._doesExist(comp.conductivity, "Electro Conductivity levels", "µS / cm")} 
+                        <br/>
+                        {/* Electrical Conductivity levels are at {comp.ec.data} µS / cm */}
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+        })
+        return (
+          <div className={classes.root}>
+            {panels}
+          </div>
+        );
+    }
   }
 }
 

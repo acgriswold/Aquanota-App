@@ -45,7 +45,8 @@
 .Overview {
   min-height: calc(85vh);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);

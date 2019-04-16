@@ -43,7 +43,7 @@ class DisplayGraphLine extends Component {
         var reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1/sensordata/"
         //filter by sensorType
         reqURL += this.state.sensorType;
-        //filter by dates
+        //filter by dates YYYYMMDDhhmmss
         // reqURL += "/1/99999999999999/"
 
         fetch(reqURL,
