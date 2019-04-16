@@ -27,11 +27,13 @@ class WarningDialog extends React.Component {
         offset: {
           "highLow": "",
           "aboveBelow": ""
-        }
+        },
+        quiet: false
       };
 
       this._shouldOpenCheck();
-      //Every 10 Minutes,
+
+      //Every 10 Minutes, check to see if another error has been added
       setInterval(
           function() {
             if (!this.state.open){
@@ -39,9 +41,8 @@ class WarningDialog extends React.Component {
             }
           }
           .bind(this),
-          300000
+          600000
       );
-
     }
 
 
@@ -67,17 +68,17 @@ class WarningDialog extends React.Component {
             return a.date - b.date;
           });
 
+          //find top error message to display
           var errorBase;
           data.forEach(function(poll){
-            if (poll.message.riskLevel === "Moderate risk") {
               errorBase = poll;
-            }
-            if (poll.message.riskLevel === "Severe risk") {
-              errorBase = poll;
-            }
           });
 
-          if (errorBase) {
+          //if error exists and quiet is off, open dialog box
+          //if error is different from current error, open up dialog even if quiet is set
+          if ((errorBase.message.riskLevel !== "On track" && this.state.quiet === false) || (JSON.stringify(errorBase) !== JSON.stringify(this.state.currentError))) {
+            dialog.setState({quiet: false});
+
             var units;
             if (errorBase.sensorType === "pH") {
               units = "moles per liter, of hydrogen ions";
@@ -107,7 +108,8 @@ class WarningDialog extends React.Component {
                 units: units,
                 data: errorBase.data,
                 tankID: errorBase.tankNumber,
-                offset: offset
+                offset: offset,
+                currentError: errorBase
               });
             }, 1000);
           }
@@ -127,9 +129,16 @@ class WarningDialog extends React.Component {
 
   handleClose = (event) => {
     if (event.target.innerText === "QUIET") {
-
+      this.setState({quiet: true});
     } else if (event.target.innerText === "OPTIONS") {
-
+      //TODO: ask Nicholas for steps how to correct for each level
+      // if(this.state.type === "pH") {
+      //   https://www.wikihow.com/Adjust-Water-pH
+      // } else if(this.state.type === "conductivity") {
+      //   https://sciencing.com/treat-high-conductivity-water-8717444.html
+      // } else if(this.state.type === "temperature") {
+      //   https://www.theaquaponicsource.com/blog/the-importance-of-maintaining-consistent-water-temperature-in-your-aquaponics-system/
+      // } 
     }
     this.setState({ open: false });
   };

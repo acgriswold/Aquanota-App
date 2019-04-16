@@ -30,7 +30,7 @@ class App extends Component {
             <Link className="App-link" to="/"> Home </Link>,
             <Link className="App-link" to="/overview"> Overview </Link>,
             <Link className="App-link" to="/messages"> Messages </Link>,
-            <Link className="App-link" to="/logout"> Logout </Link>,
+            // <Link className="App-link" to="/logout"> Logout </Link>,
             ]} />
         <Switch>
           <Route exact path="/" component={ Splash } />

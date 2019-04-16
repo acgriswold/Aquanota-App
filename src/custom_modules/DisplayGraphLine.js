@@ -14,30 +14,73 @@ let dataSet = [{
                 }]
             }];
 
-const colorPalette = [
-    "hsl(194, 60%, 57%)",
-    "hsl(200, 63%, 46%)",
-    "hsl(205, 91%, 35%)",
-    "hsl(212, 88%, 27%)",
-    "hsl(174, 44%, 64%)",
-];
-
 class DisplayGraphLine extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            sensorType: props.id,
-            data: [{
-                "id": "",
-                "color": "hsl(353, 70%, 50%)",
-                "data": [{
-                    "x": 0,
-                    "y": 0
-                }]
-            }]
-        };
+        if (props.id === "conductivity") {
+            this.state = {
+                error: null,
+                isLoaded: false,
+                sensorType: props.id,
+                data: [{
+                    "id": "",
+                    "color": "hsl(353, 70%, 50%)",
+                    "data": [{
+                        "x": 0,
+                        "y": 0
+                    }]
+                }],
+                palette: [
+                        "hsl(174, 44%, 64%)",
+                        "hsl(200, 63%, 46%)",
+                        "hsl(205, 91%, 35%)",
+                        "hsl(212, 88%, 27%)",
+                        "hsl(194, 60%, 57%)",
+                    ]
+            };
+        } else if (props.id === "temperature") {
+            this.state = {
+                error: null,
+                isLoaded: false,
+                sensorType: props.id,
+                data: [{
+                    "id": "",
+                    "color": "hsl(353, 70%, 50%)",
+                    "data": [{
+                        "x": 0,
+                        "y": 0
+                    }]
+                }],
+                palette: [
+                    "hsl(200, 63%, 46%)",
+                    "hsl(194, 60%, 57%)",
+                    "hsl(205, 91%, 35%)",
+                    "hsl(212, 88%, 27%)",
+                    "hsl(174, 44%, 64%)"
+                ]
+            };
+        } else if (props.id === "pH") {
+            this.state = {
+                error: null,
+                isLoaded: false,
+                sensorType: props.id,
+                data: [{
+                        "id": "",
+                        "color": "hsl(353, 70%, 50%)",
+                        "data": [{
+                            "x": 0,
+                            "y": 0
+                        }]
+                    }],
+                palette: [
+                        "hsl(212, 88%, 27%)",
+                        "hsl(205, 91%, 35%)",
+                        "hsl(194, 60%, 57%)",
+                        "hsl(200, 63%, 46%)",
+                        "hsl(174, 44%, 64%)",
+                    ]
+            };
+        }
 
         const displayGraph = this;
         var reqURL = "https://zs1uuzh2ie.execute-api.us-east-2.amazonaws.com/beta/tankdata/1/sensordata/"
@@ -189,7 +232,7 @@ class DisplayGraphLine extends Component {
         var groupedData = objectArr.reduce(function (l, r) {
             // construct a unique key out of the properties we want to group by
             // submitter date will only be year, month, day
-            var dayOnly = r.SubmitterDate.substring(0, 8);
+            var dayOnly = r.SubmitterDate.substring(0, 4) + "-" + r.SubmitterDate.substring(4,6) + "-" + r.SubmitterDate.substring(6,8);
             var key = r.SubjectEventID + "|" + dayOnly;
 
             // check if the key is already known
@@ -216,9 +259,11 @@ class DisplayGraphLine extends Component {
                 var keyParts = key.split(/\|/);
                 // construct {x, y} format including the average value
                 // x is dayOnly y is data
+                var average = (groupedData[key].sum / groupedData[key].count);
+                average = Math.round(average * 1000) / 1000;
                 return {
                     x: keyParts[1],
-                    y: (groupedData[key].sum / groupedData[key].count)
+                    y: average
                 };
             });
 
@@ -226,7 +271,7 @@ class DisplayGraphLine extends Component {
     }
     
     render() {
-        let { error, isLoaded } = this.state;
+        let { error, isLoaded, palette } = this.state;
         this._updateGraph();
 
         if (error) {
@@ -314,7 +359,7 @@ class DisplayGraphLine extends Component {
                                 "legendOffset": -40,
                                 "legendPosition": "middle"
                             }}
-                            colors={colorPalette}
+                            colors={palette}
                             lineWidth={2.5}
                             dotSize={10}
                             dotColor="inherit:darker(0.3)"
