@@ -34,6 +34,22 @@ a:visited, a:active {
   padding: 0 .3em 0;
 }
 
+.warning, .lowWarning, .noWarning {
+  font-size: 1.15em;
+  padding-top: 10px;
+}
+.warning {
+  color: rgb(180, 11, 11);
+}
+
+.lowWarning {
+  color: rgb(230, 192, 24);
+}
+
+.noWarning {
+  color: rgb(3, 173, 60);
+}
+
 .text-body {
   margin-bottom: .5em;
 }

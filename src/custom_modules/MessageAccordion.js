@@ -9,6 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+import '../css/index.css';
 
 const styles = theme => ({
   root: {
@@ -27,57 +28,13 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
   },
+   column: {
+     flexBasis: '33.33%',
+   },
+   break: {
+    borderLeft: `2px solid ${theme.palette.divider}`,
+   }
 });
-
-
-// const data = [{
-//                   date: "2019-3-27",
-//                   tankNumber: "1",
-//                   pH: 6.3,
-//                   temp: 32,
-//                   ec: 324,
-//                   message: "On Track"
-//                 },
-//                 {
-//                   date: "2019-3-26",
-//                   tankNumber: "2",
-//                   pH: 6.3,
-//                   temp: 32,
-//                   ec: 324,
-//                   message: "On Track"
-//                 },
-//                 {
-//                   date: "2019-3-24",
-//                   tankNumber: "1",
-//                   pH: 6.3,
-//                   temp: 32,
-//                   ec: 324,
-//                   message: "On Track"
-//                 },
-//                 {
-//                   date: "2019-3-23",
-//                   tankNumber: "2",
-//                   pH: 6.3,
-//                   temp: 32,
-//                   ec: 324,
-//                   message: "On Track"
-//                 },
-//                 {
-//                   date: "2019-3-22",
-//                   tankNumber: "2",
-//                   pH: 6.3,
-//                   temp: 32,
-//                   ec: 324,
-//                   message: "On Track"
-//                 },
-//                 {
-//                   date: "2019-3-21",
-//                   tankNumber: "2",
-//                   pH: 2,
-//                   temp: 32,
-//                   ec: 324,
-//                   message: "At Risk"
-//                 }]
 
 class MessageAccordion extends React.Component {
   constructor(props) {
@@ -213,8 +170,23 @@ class MessageAccordion extends React.Component {
 
   _doesExist(object, key, units) {
     var returnMsg = "";
+    var riskLevel = "";
     if (object) {
-      returnMsg = key + " levels are at " + object.data + " " + units + ".\nThese levels are " + object.message.riskLevel;
+      if (object.message.riskLevel==="on Track"){
+        riskLevel = "noWarning";
+      } else if (object.message.riskLevel==="Moderate risk"){
+        riskLevel = "lowWarning";
+      } else if (object.message.riskLevel==="Severe Risk"){
+        riskLevel = "warning";
+      }
+      returnMsg = <div className="text-body">
+            <span className="emphasize">{key}</span> 
+            levels are at 
+            <span className="emphasize">{object.data}</span>
+             {units}
+             <br/>
+             <span className={riskLevel}>{object.message.riskLevel}</span>
+          </div>
     }
     return returnMsg
   }
@@ -261,16 +233,15 @@ class MessageAccordion extends React.Component {
                 <Typography className={classes.secondaryHeading}>Tank {comp.number}: {comp.status}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography>
-                        {this._doesExist(comp.pH, "pH", "")}  
-                        <br/>
-                        {this._doesExist(comp.temperature, "Temperature", "C")} 
-                        <br/>
-                        {/* Temperature levels are at {comp.temp.data} C.   */}
-                        {this._doesExist(comp.conductivity, "Electro Conductivity levels", "µS / cm")} 
-                        <br/>
-                        {/* Electrical Conductivity levels are at {comp.ec.data} µS / cm */}
-                </Typography>
+                <div className={classes.column}>
+                  <Typography>{this._doesExist(comp.pH, "pH", "")}  </Typography>
+                </div>
+                <div className={classes.column}>
+                  <Typography className={classes.break}>{this._doesExist(comp.temperature, "Temp", "C")} </Typography>
+                </div>
+                <div className={classes.column}>
+                  <Typography className={classes.break}> {this._doesExist(comp.conductivity, "EC", "µS / cm")} </Typography>
+                </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>
         })
